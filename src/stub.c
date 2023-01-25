@@ -5,10 +5,12 @@
 extern unsigned int width, height, pitch;
 extern unsigned char *lfb;
 int kprintf_x = 0, kprintf_y = 0;
+extern ssfn_font_t *font;
+
 /**
  * Display string using a bitmap font without the SSFN library
  */
-void printString(int x, int y, char *s) {
+void print_string_raw(int x, int y, char *s) {
     unsigned char *ptr, *chr, *frg;
     unsigned int c;
     uintptr_t o, p;
@@ -66,19 +68,19 @@ void kprintf(const char *format_string, ...) {
             } else if (*format_string == 'u') {
                 //com1_log_printudec(va_arg(args, unsigned int));
             } else if (*format_string == 's') {
-                printString(kprintf_x, kprintf_y, va_arg(args, char*)); 
+                print_string_raw(kprintf_x, kprintf_y, va_arg(args, char*)); 
             } else if (*format_string == 'c') {
                 char temp_str[2];
                 temp_str[0] = (char)va_arg(args, int);
                 temp_str[1] = 0;
-                printString(kprintf_x, kprintf_y, temp_str);  
+                print_string_raw(kprintf_x, kprintf_y, temp_str);  
                 kprintf_x += 10;
             }
         } else {
             char temp_str[2];
             temp_str[0] = *format_string;
             temp_str[1] = 0;
-            printString(kprintf_x++, kprintf_y, temp_str);
+            print_string_raw(kprintf_x++, kprintf_y, temp_str);
             kprintf_x += 10;
         }
         format_string++;

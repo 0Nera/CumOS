@@ -7,6 +7,7 @@
 
 unsigned int width, height, pitch;
 unsigned char *lfb;
+ssfn_font_t *font;
 
 void fuckup(int fuck) {
     printf("\nfuckup: %d", fuck);

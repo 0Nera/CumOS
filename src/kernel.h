@@ -19,8 +19,6 @@ typedef struct {
     unsigned int   cmap_offs;
 } __attribute__((packed)) ssfn_font_t;
 /* font to be used */
-ssfn_font_t *font;
 
 void kprintf(const char *format_string, ...);
-void printString(int x, int y, char *s);
 
