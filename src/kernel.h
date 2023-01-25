@@ -18,9 +18,6 @@ typedef struct {
     unsigned int   kerning_offs;
     unsigned int   cmap_offs;
 } __attribute__((packed)) ssfn_font_t;
-/* framebuffer properties */
-unsigned int width, height, pitch;
-unsigned char *lfb;
 /* font to be used */
 ssfn_font_t *font;
 

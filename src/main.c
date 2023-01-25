@@ -5,6 +5,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+unsigned int width, height, pitch;
+unsigned char *lfb;
 
 void fuckup(int fuck) {
     printf("\nfuckup: %d", fuck);

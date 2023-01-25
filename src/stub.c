@@ -1,6 +1,9 @@
 #include "kernel.h"
 
 
+
+extern unsigned int width, height, pitch;
+extern unsigned char *lfb;
 int kprintf_x = 0, kprintf_y = 0;
 /**
  * Display string using a bitmap font without the SSFN library
