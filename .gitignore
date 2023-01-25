@@ -1,0 +1,8 @@
+
+*.efi
+*.lib
+*.o
+src/posix-uefi/examples/
+*.img
+*.raw
+*.iso
