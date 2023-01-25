@@ -1,0 +1,41 @@
+name: push
+
+# Контроль событий при которых будет сборка
+on:
+  # В нашем случае это push в ветку master
+  push:
+    tags:
+        - "v*"
+    branches: [ "*" ]
+  #pull_request:
+  #  tags:
+  #      - "v*"
+  #  branches: [ "master" ]
+  # Позволяет запускать этот рабочий процесс вручную на вкладке Actions
+  workflow_dispatch:
+
+# Выполнение рабочего процесса состоит из одного или нескольких заданий, которые могут выполняться последовательно или параллельно
+jobs:
+  build:
+    #  Все будет работать на последней версии Ubuntu
+    runs-on: ubuntu-latest
+
+    # Шаги представляют собой последовательность задач, которые будут выполняться как часть задания
+    steps:
+      - uses: actions/checkout@v3
+
+      # Установка зависимостей
+      - name: Установка зависимостей
+        run: |
+          sudo apt install python3 gnu-efi clang lld xorriso mtools
+          
+      # Запуск сборки ядра
+      - name: Сборка ядра
+        run: python3 build.py
+        
+      # Проверка релиза
+      - name: Проверка релиза
+        run: |
+          echo "           /"
+          ls
+        continue-on-error: true
