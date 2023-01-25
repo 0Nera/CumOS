@@ -27,7 +27,17 @@ int main(int argc, char **argv) {
     efi_gop_t *gop = NULL;
     FILE *f;
     long int size;
-
+    DIR *dh;
+    struct dirent *de;
+    printf("argc %d, argv[0] %s\n", argc, argv[0]);
+    printf("Files:\n");
+    if((dh = opendir("\\"))) {
+        while ((de = readdir(dh)) != NULL) {
+            printf("%c %04x %s\n", de->d_type == DT_DIR ? 'd' : '.', de->d_type, de->d_name);
+        }
+        closedir(dh);
+    } else
+        fprintf(stderr, "Unable to open directory\n");
     /* load font */
     if((f = fopen("\\files\\iso_dir\\font.sfn", "r"))) {
         fseek(f, 0, SEEK_END);
@@ -65,12 +75,11 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    /* display multilingual text */
     printString(0, 0, "CumOS 0.1.0");
-    printString(0, 0, "Приветствуем в CUM OS!");
+    printString(0, 10, "Приветствуем в CUM OS!");
 
-    /* free resources exit */
     free(font);
+    
     // Не бойтесь, тут тупо стопорим процессор командой hlt, чтобы он зря не грелся
     __asm__("cli");
     for(;;) {
