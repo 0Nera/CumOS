@@ -6,3 +6,4 @@ src/posix-uefi/examples/
 *.img
 *.raw
 *.iso
+*.a
