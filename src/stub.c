@@ -1,11 +1,11 @@
 #include "kernel.h"
 
 
+int kprintf_x = 0, kprintf_y = 0;
 /**
  * Display string using a bitmap font without the SSFN library
  */
-void printString(int x, int y, char *s)
-{
+void printString(int x, int y, char *s) {
     unsigned char *ptr, *chr, *frg;
     unsigned int c;
     uintptr_t o, p;
@@ -38,3 +38,50 @@ void printString(int x, int y, char *s)
         x += chr[4]+1; y += chr[5];
     }
 }
+
+
+void kprintf(const char *format_string, ...) {
+    va_list args;
+
+    // Ищем первый аргумент
+    va_start(args, format_string);
+
+    // Обработка и парсинг строки форматов
+    while (*format_string != '\0') {
+        if (*format_string == '%') {
+            format_string++;
+            if (*format_string == 'x') {
+                //com1_log_printhex(va_arg(args, unsigned long long));
+            } else if (*format_string == '8') {
+                //com1_log_printdec((unsigned char)va_arg(args, char*)[0]);
+            } else if (*format_string == 'd') {
+                //com1_log_printdec(va_arg(args, int));
+            } else if (*format_string == 'l') {
+                //com1_log_printdec(va_arg(args, long));
+            } else if (*format_string == 'f') {
+                //com1_log_printfloat(va_arg(args, double), 7);
+            } else if (*format_string == 'u') {
+                //com1_log_printudec(va_arg(args, unsigned int));
+            } else if (*format_string == 's') {
+                printString(kprintf_x, kprintf_y, va_arg(args, char*)); 
+            } else if (*format_string == 'c') {
+                char temp_str[2];
+                temp_str[0] = (char)va_arg(args, int);
+                temp_str[1] = 0;
+                printString(kprintf_x, kprintf_y, temp_str);  
+                kprintf_x += 10;
+            }
+        } else {
+            char temp_str[2];
+            temp_str[0] = *format_string;
+            temp_str[1] = 0;
+            printString(kprintf_x++, kprintf_y, temp_str);
+            kprintf_x += 10;
+        }
+        format_string++;
+    }
+    
+    // Освобождаем память
+    va_end(args);
+}
+

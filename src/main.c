@@ -14,7 +14,6 @@ void fuckup(int fuck) {
         __asm__("hlt");
     }
 }
-
 /**
  * Classic Hello World example
  */
@@ -38,6 +37,7 @@ int main(int argc, char **argv) {
         closedir(dh);
     } else
         fprintf(stderr, "Unable to open directory\n");
+    printf("%d\n", time(NULL));
     /* load font */
     if((f = fopen("\\files\\iso_dir\\font.sfn", "r"))) {
         fseek(f, 0, SEEK_END);
@@ -75,11 +75,12 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    printString(0, 0, "CumOS 0.1.0");
-    printString(0, 10, "Приветствуем в CUM OS!");
+    
+    kprintf("123");
+    fuckup(1);
 
     free(font);
-    
+
     // Не бойтесь, тут тупо стопорим процессор командой hlt, чтобы он зря не грелся
     __asm__("cli");
     for(;;) {
